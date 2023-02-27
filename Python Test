@@ -1,0 +1,86 @@
+import math
+import sys
+from PyQt5.QtWidgets import *
+from PyQt5 import uic
+
+form_class = uic.loadUiType("calculatorTest.ui")[0]
+
+class MainWindow(QMainWindow,form_class) :
+    def __init__(self) :
+        super().__init__()
+        self.setupUi(self)
+
+        #키패드 리스트
+        Numbers = [self.Num_0,self.Num_1,self.Num_2,self.Num_3,self.Num_4,self.Num_5,self.Num_6,
+                    self.Num_7,self.Num_8,self.Num_9]
+
+        for number in Numbers:
+            number.clicked.connect(self.Nums)
+
+##        self.ui.show()
+##        #연산자 클릭 해서 함수 불러오는부분
+        self.equalbtn.clicked.connect(self.equalButton)
+        self.addbtn.clicked.connect(self.addButton)
+        self.minbtn.clicked.connect(self.miButton)
+        self.mulbtn.clicked.connect(self.mulButton)
+        self.divbtn.clicked.connect(self.divButton)
+        self.delbtn.clicked.connect(self.backButton)
+        
+    def Nums(self):
+        
+        sender = self.sender()
+        new_num = int(sender.text())
+        num_str = str(new_num)
+        print(self.Line_res.toPlainText())
+        if self.Line_res.toPlainText() == "":
+            self.Line_res.setPlainText(num_str)
+        else:
+            self.Line_res.setPlainText(self.Line_res.toPlainText() + num_str)
+    
+     # 더하기 연산
+    def addButton(self):
+        if self.Line_res.toPlainText() == '0':
+            self.Line_res.setPlainText('Error//PressClear Button')
+        else:
+            self.Line_res.setPlainText(self.Line_res.toPlainText() + '+')    
+    # 빼기 연산
+    def miButton(self):
+        if self.Line_res.toPlainText() == '0':
+            self.Line_res.setPlainText('Error//PressClear Button')
+        else:
+            self.Line_res.setPlainText(self.Line_res.toPlainText() + '-')  
+    # 곱하기 연산
+    def mulButton(self):
+        if self.Line_res.toPlainText() == '0':
+            self.Line_res.setPlainText('Error//PressClear Button')
+        else:
+            self.Line_res.setPlainText(self.Line_res.toPlainText() + '*')  
+    # 나누기 연산
+    def divButton(self):
+        if self.Line_res.toPlainText() == '0':
+            self.Line_res.setPlainText('Error//PressClear Button')
+        else:
+            self.Line_res.setPlainText(self.Line_res.toPlainText() + '/')  
+    # 지우기 연산
+    def backButton(self):
+        n = len(self.Line_res.toPlainText())
+        if self.Line_res.text()[-1] == '':
+            self.Line_res.setPlainText(self.Line_res.toPlainText()[0:n-2])
+        else:
+            self.Line_res.setText(self.Line_res.toPlainText()[0:n-1])
+        if self.Line_res.text() == '':
+            self.Line_res.setPlainText('0')
+    # 결과값 연산
+    def equalButton(self):
+        res = self.Line_res.toPlainText()
+
+        result = round(eval(res),4)
+        self.Line_res.setPlainText(str(result))
+
+    
+        
+if __name__ == "__main__" :
+    app = QApplication(sys.argv) 
+    myWindow = MainWindow()     
+    myWindow.show()             
+    app.exec_()     
