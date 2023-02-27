@@ -1,0 +1,353 @@
+#include<Keypad.h>
+#include <Servo.h>
+#include<LiquidCrystal_I2C_Hangul.h>
+#include<Wire.h>
+
+LiquidCrystal_I2C_Hangul lcd(0x27,16,2);
+
+Servo myservo;
+int pos = 0;
+const byte ROWS = 4; //행(ROWS) 개수
+const byte COLS = 4; //열(COLS) 개수
+char keys[ROWS][COLS] = { //행과 열을 가지는 이차원 배열
+  {'1','2','3','A'},
+  {'4','5','6','B'},
+  {'7','8','9','C'},
+  {'*','0','#','D'},
+};
+byte rowPins[ROWS] = {46,48,50,52};
+byte colPins[COLS] = {44,42,40,38};
+
+Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );  // 키패드 오브젝트 생성
+ 
+bool longPress = false;  // 키패드 이벤트용 
+
+bool longPress1 = false;
+
+bool doorOpen = false;
+
+char temp[4] = { 0, };      // 비밀번호 설정시 임시 저장변수
+
+char password[4] = "1234";  // 초기 비밀번호 및 사용자 비밀번호 저장 변수
+
+char inputCode[4] = "0000"; // 검증을 위한 사용자 입력 비밀번호 저장 배열
+
+uint8_t codeIndex = 0;    // 비밀번호 문자열 배열 index
+
+void setup(){
+  myservo.attach(10);
+  Serial.begin(9600);
+  Serial3.begin(9600);
+  keypad.addEventListener(keypadEvent); 
+
+  lcd.init();
+  lcd.backlight();
+  lcd.setCursor(1,0);
+  lcd.print("password :");
+}
+
+
+char temp1[4] = { 0, };
+char val; //= 0;
+
+void loop(){
+
+  if(Serial3.available())
+  {  
+    val = Serial3.read();
+    //val -=48;
+    temp1[codeIndex] = val;
+    //Serial.print(temp1[codeIndex]);
+  }
+
+
+//-----------------------------------------------------------  
+    char key = keypad.getKey();
+   if (longPress || longPress1) {  // password 설정
+      if (key || val) {
+       if (key != '*' && key != '#' && codeIndex < 4 || val != '*' && val != '#' && codeIndex < 4) { // 숫자이면, 4자리 이상 무시
+          Serial.print("pass set key: "); 
+          Serial.println(key);
+          Serial.println(val);  
+          temp[codeIndex] = key;
+          temp1[codeIndex] = val;          
+          codeIndex++;
+        }
+//------------------------------------------------------------
+
+//---------------------------------------------------------------
+
+        else if(key == '#' )
+        { // password 저장
+
+          for (int i = 0; i < 4; i++) password[i] = temp[i];
+          longPress = false;
+         key = '\0'; 
+         codeIndex = 0;
+         doorOpen = false; // 자동으로 잠기는 문 표시
+         Serial.println("set new password");
+       }
+//-------------------------------------------------------------
+     
+        else if(val == '#' )
+        { // password 저장
+      
+          for (int i = 0; i < 4; i++) password[i] = temp1[i];
+          longPress1 = false;
+         val = '\0'; 
+         codeIndex = 0;
+         doorOpen = false; // 자동으로 잠기는 문 표시
+         Serial.println("set new password");
+       }
+
+//-------------------------------------------------------
+       else if (key == '*') {  // 입력값 초기화
+          for (int i = 0; i < 4; i++) temp[i] = '0'; 
+          key = '\0'; 
+          codeIndex = 0;
+
+         Serial.println("CLEAR");   
+       
+       }
+
+      }
+    } 
+   
+     else {
+        if(val == '#')
+        {
+         serialEvent();
+        } 
+     if(temp1[codeIndex]>0)
+     {
+
+      if (val != '*' && val != '#' && doorOpen == false) 
+      { // 숫자만 입력
+
+          Serial.print("key: "); Serial.println(val);
+
+          inputCode[codeIndex] = val;
+
+         if(codeIndex==0)
+         {
+         lcd.clear();
+         lcd.setCursor(1,0);
+          lcd.print("password :");        
+         lcd.setCursor(1,1);
+          lcd.print("*");  
+          }
+          else if(codeIndex==1)
+          {
+          lcd.clear();
+         lcd.setCursor(1,0);
+         lcd.print("password :");
+         lcd.setCursor(1,1);
+         lcd.print("**");  
+         }
+         else if(codeIndex==2)
+         {
+         lcd.clear();
+         lcd.setCursor(1,0);
+         lcd.print("password :");
+         lcd.setCursor(1,1);
+         lcd.print("***");  
+         }   
+         else if(codeIndex==3)
+         {
+         lcd.clear();
+         lcd.setCursor(1,0);
+         lcd.print("password :");
+         lcd.setCursor(1,1);
+         lcd.print("****");
+         }                  
+         
+        codeIndex++;
+        if (codeIndex == 4 ) 
+        {
+
+          if (strncmp(password, inputCode, 4) == 0)
+          {
+               lcd.clear();
+               lcd.setCursor(1,0);
+               lcd.print("hello");
+               Serial3.println("OPEN");
+             for (pos = 0; pos <= 90; pos += 1)
+              { 
+               //도어락 90도 열림                                                         
+               Serial.println("door open");
+               myservo.write(pos);  
+               delay(50);        
+               doorOpen = true;
+               codeIndex = 0;
+              }
+             for (pos = 0; pos <= 90; pos += 1)
+              { 
+               //도어락 90도 닫힘                                                         
+               Serial.println("door close");
+               myservo.write(pos);          
+              }
+
+          }
+           
+         else 
+          {
+            Serial.println("wrong number");
+            lcd.clear();
+            lcd.setCursor(1,0);
+            lcd.print("re-enter");
+            Serial3.println("password error");            
+            codeIndex = 0;
+          }
+          for (int i = 0; i < 4; i++) inputCode[i] = '0';
+        }          
+      }  
+
+      else if (val == '*') {  // 입력값 초기화
+        Serial.println("CLEAR");
+        for (int i = 0; i < 4; i++) inputCode[i] = '0'; 
+        val = '\0'; 
+        codeIndex = 0;
+      }
+//--------------------------------------------------------------------
+
+
+
+
+    }
+//-----------------------------------------------------------------
+     if (key)
+      {
+
+        if (key != '*' && key != '#' && doorOpen == false) { // 숫자만 입력
+
+          Serial.print("key: "); Serial.println(key);
+
+          inputCode[codeIndex] = key;
+
+         if(codeIndex==0)
+         {
+         lcd.clear();
+         lcd.setCursor(1,0);
+          lcd.print("password :");        
+         lcd.setCursor(1,1);
+          lcd.print("*");  
+          }
+          else if(codeIndex==1)
+          {
+          lcd.clear();
+         lcd.setCursor(1,0);
+         lcd.print("password :");
+         lcd.setCursor(1,1);
+         lcd.print("**");  
+         }
+         else if(codeIndex==2)
+         {
+         lcd.clear();
+         lcd.setCursor(1,0);
+         lcd.print("password :");
+         lcd.setCursor(1,1);
+         lcd.print("***");  
+         }   
+         else if(codeIndex==3)
+         {
+         lcd.clear();
+         lcd.setCursor(1,0);
+         lcd.print("password :");
+         lcd.setCursor(1,1);
+         lcd.print("****");
+         }                  
+         
+        codeIndex++;
+        if (codeIndex == 4 ) {
+          if (strncmp(password, inputCode, 4) == 0){
+               lcd.clear();
+               lcd.setCursor(1,0);
+               lcd.print("hello");
+
+             for (pos = 0; pos <= 90; pos += 1)
+              { 
+               //도어락 90도 열림                                                         
+               Serial.println("door open");
+               myservo.write(pos);  
+               delay(50);        
+               doorOpen = true;
+               codeIndex = 0;
+              }
+             for (pos = 0; pos <= 90; pos += 1)
+              { 
+               //도어락 90도 닫힘                                                         
+               Serial.println("door close");
+               myservo.write(pos);          
+
+              }
+          } else {
+            Serial.println("wrong number");
+            lcd.clear();
+            lcd.setCursor(1,0);
+            lcd.print("re-enter");
+            codeIndex = 0;
+          }
+          for (int i = 0; i < 4; i++) inputCode[i] = '0';
+        }
+      }
+
+      else if (key == '*') {  // 입력값 초기화
+        Serial.println("CLEAR");
+        for (int i = 0; i < 4; i++) inputCode[i] = '0'; 
+        key = '\0'; 
+        codeIndex = 0;
+      }
+    }
+  }
+}
+
+
+void keypadEvent(KeypadEvent key)
+{ // 키패드 이벤트 함수
+  switch (keypad.getState())
+  {
+    case HOLD:
+      switch (key)
+      {
+        case '*': longPress = false;  // 비밀번호 변경코드 빠져나감
+                  key = '\0'; 
+                  codeIndex = 0;
+                  Serial.println("set pass out");
+        break;
+      }
+    break;  // HOLD 종료
+  }
+
+  if(doorOpen == true) 
+  {  // 문 열린 상태에서 키패드 이벤트 진입
+    switch (keypad.getState())
+    {
+      case HOLD:
+        switch (key)
+        {
+          case '#': longPress = true;  // 비밀번호 변경코드 진입
+                    key = '\0'; 
+                    codeIndex = 0;
+                    Serial.println("set pass in");
+          break;
+        }
+      break; 
+    }
+  }
+}
+
+//-----------------------------------------------------
+
+void serialEvent()
+{ 
+  if(doorOpen == true) 
+  {   
+   longPress1 = true;  
+   val = '\0'; 
+   codeIndex = 0;
+   Serial.println("set pass in");
+
+    
+  }
+}
+
