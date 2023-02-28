@@ -1,0 +1,413 @@
+##class BaseClass:
+##    def __init__(self):
+##        self.n1 = 100
+##        print("BaseClass Constructor")
+##    def Base_print(self):
+##        print("It`s BaseClass")
+##
+##b = BaseClass()
+##
+##class DerivedClass(BaseClass):   # 상속
+##    def __init__(self):
+##        self.n2 = 200
+##        print("DerivedClass Constructor")
+##        super().__init__()       # 부모클래스의 생성자를 호출한다.
+##    def DerivedClass(self):   
+##        print("It`s DerivedClass!!")
+##
+##
+##b = BaseClass()
+##d = DerivedClass()
+##d.Base_print()
+##print(d.n1)
+##b.n1 = 1000
+##print(b.n1)
+
+
+##class Date:
+##    def __init__(self,month):
+##        self.month = month
+##    def getmonth(self):
+##        return self.month
+##    def setmonth(self,month):
+##        if 1 <= month <= 12:
+##            self.month = month
+##
+##today = Date(8)
+##today.setmonth(15)
+##print(today.getmonth())
+
+
+
+##Property#################################################
+
+##class Date:
+##    def __init__(self,month):
+##        self.inner_month = month
+##    def getmonth(self):
+##        return self.inner_month
+##    def setmonth(self,month):
+##        if 1<= month <= 12:
+##            self.inner_month = month
+##    month = property(getmonth,setmonth)
+##
+##today = Date(8)
+##today.month = 15
+##print(today.month)
+        
+##########################################################
+
+##Property2#############################################
+##class Date:
+##    def __init__(self,month):
+##        self.inner_month = month
+##    @property    
+##    def month(self):
+##        return self.inner_month
+##    @month.setter
+##    def month(self,month):
+##        if 1<= month <= 12:
+##            self.inner_month = month
+##
+##today = Date(8)
+##today.month = 15
+##print(today.month)            
+
+
+##########################################################
+
+##hidden##############################################
+
+##class Date:
+##    def __init__(self,month):
+##        self.__month = month
+##    def getmonth(self):
+##        return self.__month
+##    def setmonth(self,month):
+##        if 1<= month <= 12:
+##            self.__month = month
+##    month = property(getmonth,setmonth)
+##   
+##today = Date(8)
+##today.__month = 15
+##print(today.month)
+
+
+
+
+
+##class Car:
+##    count = 0
+##    def __init__(self,name):
+##        self.name = name
+##        Car.count += 1
+##
+##    @classmethod
+##    def outcount(cls):
+##        print(cls.count)
+##    @classmethod
+##    def outcount(b):
+##        print(b.count)
+##
+##
+##
+##pride = Car("프라이드")
+##korando = Car("코란도")
+##Car.outcount()
+##Car.outcount()
+
+
+
+##class Car:
+##    @staticmethod
+##    def hello():
+##        print("오늘도 안전 운행 합시다.")
+##    count = 0
+##    def __init__(self,name):
+##        self.name = name
+##        Car.count += 1
+##    @classmethod
+##    def outcount(cls):
+##        print(cls.count)
+##
+##Car.hello()        
+
+
+
+##class Human:
+##    def __init__(self,age,name):
+##        self.age = age
+##        self.name = name
+##    def __eq__(self,other):
+##        return self.age == other.age and self.name == other.name
+##
+##kim = Human(29,"김상형")
+##sang = Human(29,"김상형")
+##moon = Human(44,"문종민")
+##print(kim == sang)
+##print(kim == moon)
+
+
+
+##class AddOp:
+##    def __init__(self,num):
+##        self.num = num
+##    def __radd__(self,num):
+##        return num + self.num
+##    def __add__(self,num):
+##        return self.num + num
+##a = AddOp(100)
+##print(300 + a)
+##print(a + 200)
+
+
+
+
+
+##class Human:
+##    def __init__(self,age,name):
+##        self.age = age
+##        self.name = name
+####    def __str__(self):
+####        return "이름 %s, 나이 %d" % (self.name,self.age)
+##
+##kim = Human(29,"김상형")
+##print(kim)
+
+
+
+
+
+
+##class Human:
+##    def __init__(self,age,name):
+##        self.age = age
+##        self.name = name
+##    def __len__(self):
+##        return self.age
+##
+##kim = Human(29,"김현승")
+##print(len(kim))
+
+
+
+
+
+##f = 0.1
+##sum = 0
+##for i in range(100):
+##    sum += f
+##print(sum)    
+
+
+
+
+from decimal import Decimal
+
+f = Decimal('0.1')
+sum = 0
+for i in range(100):
+    sum += f
+print(sum)    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
