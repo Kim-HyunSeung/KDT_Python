@@ -13,3 +13,7 @@ Python or Arduino IDE or Raspberry pi use
 </div>
 
 
+## 주요 실습 화면
+<div align=center> 
+?
+</div>
