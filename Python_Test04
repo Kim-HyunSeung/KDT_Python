@@ -1,0 +1,390 @@
+##score = [88,95,70,100,99]
+##for s in score:
+##    print("성적 :",s)
+
+##score = [88,95,70,100,99]
+##no = 1
+##for s in score:
+##    print(str(no) + "번 학생의 성적 :",s)
+##    no +=1
+
+##score = [88,95,70,100,99]
+##for no in range(len(score)):
+##    print(str(no + 1) + "번 학생의 성적 :",score[no])
+##
+##race = ['저그','테란','프로토스']
+##list(enumerate(race))
+
+
+##score = [88,95,70,100,99]
+##for no, s in enumerate(score,1):
+##    print(str(no) + "번 학생의 성적 :",s)
+
+
+##yoil = ["월","화","수","목","금","토","일"]
+##food = ["갈비탕","순대국","칼국수","삼겹살"]
+##menu = zip(yoil,food)
+##for y, f in menu:
+##    print("%s요일 메뉴 : %s" % (y,f))
+
+##adult = [True,False,True,False]
+##print(any(adult))
+##print(all(adult))
+
+##def flunk(s):
+##    return s < 60
+##
+##score = [45,89,72,53,94]
+##for s in filter(flunk,score):
+##    print(s)
+
+##def half(s):
+##    return s / 2
+##
+##score = [45,89,72,53,94]
+##for s in map(half,score):
+##    print(s,end = ', ')
+
+##def total(s,b):
+##    return s + b
+##
+##score = [45,89,72,53,94]
+##bonus = [2,3,0,0,5]
+##for s in map(total,score,bonus):
+##    print(s,end=", ")
+
+
+##def total(s,b):
+##    return s + b
+##
+##score = [45,89,72,53,94]
+##bonus = [2,3,0,0,5]
+##for s in score:
+##    for b in bonus:
+        
+######################################    
+##def half(s):
+##    return s / 2
+##
+##score = [45,89,72,53,94]
+##for s in score:
+##    print(half(s),end = ', ')
+
+######################################
+
+##score = [45,89,72,53,94]   
+##for s in score:
+##    print(s/2,end = ', ')
+
+####################################
+
+##def half(s):
+##    return s / 2
+##    
+##score = [45,89,72,53,94]
+##
+##score1 = []
+##for s in score:
+##    score1.append(half(s))
+##for s1 in score1:
+##    print(s1,end =' ')
+
+
+
+##score = [45,89,72,53,94]
+##for s in filter(lambda x:x < 60,score):
+##    print(s)
+
+
+##score = [45,89,72,53,94]
+##for s in map(lambda x:x / 2, score):
+##    print(s,end=",")
+
+
+
+##a = 3
+##b = a
+##print("a = %d, b = %d" %(a,b))
+##
+##a= 5
+##print("a = %d, b = %d" %(a,b))
+
+## list1,list2 는 주소를 공유함
+##list1 = [1,2,3]
+##list2 = list1
+##list3 = list1
+##list3[1] = 100
+##print(list1)
+##print(list2)
+##print(list3)
+
+
+
+
+##list1 = [1,2,3]
+##list2 = list1[:]
+####list2 = list1.copy()
+##
+##list2[1]=100
+##print(list1)
+##print(id(list1[1]))
+##print(list2)
+##print(id(list2[1]))
+
+
+
+##import math
+##
+##print(math.sqrt(2)) ## 2의 루트임.
+
+
+
+##from math import sqrt as m
+##print(m(3))
+
+##import math
+##
+##print(math.sin(math.radians(45)))
+##print(math.sqrt(2))
+##print(math.factorial(5))
+
+
+
+##import math
+##import turtle as t
+##
+##t.penup()
+##t.goto(-90,0)
+##t.pendown()
+##for x in range(-90,1080) :
+##    t.goto(x, math.sin(math.radians(x)) * 100)
+##t.done()
+
+##import statistics
+##
+##score = [30,40,60,70,80,90]
+##print(statistics.mean(score))
+##print(statistics.harmonic_mean(score))
+##print(statistics.median(score))
+##print(statistics.median_low(score))
+##print(statistics.median_high(score))
+
+
+##import time
+##print(time.time())
+
+
+##import time
+##
+##t = time.time()
+##print(time.ctime(t))
+
+
+##import time
+##
+##t = time.time()
+##print(time.localtime(t))
+
+
+
+##import time
+##
+##now = time.localtime()
+##print("%d년 %d월 %d일" % (now.tm_year,now.tm_mon, now.tm_mday))
+##print("%d:%d:%d" % (now.tm_hour,now.tm_min,now.tm_sec))
+
+
+##import datetime
+##
+##now = datetime.datetime.now()
+##print("%d년 %d월 %d일" % (now.year,now.month,now.day))
+##print("%d:%d:%d" % (now.hour,now.minute,now.second))
+
+
+##import time
+##
+##start = time.time()
+##for a in range(1000):
+##    print(a)
+##end = time.time()
+##print(end - start)
+
+
+##import time
+##
+##print("안녕하세요.")
+##time.sleep(1)
+##print("밤에 성시경이 두명 있으면 뭘까요?")
+##time.sleep(5)
+##print("야간투시경입니다.")
+
+
+
+##import time
+##for dan in range(2,10):
+##    print(dan,"단")
+##    for hang in range(2,10):
+##        print(dan,"*",hang,"=",dan*hang)
+##        time.sleep(0.2)
+##    print()
+##    time.sleep(1)
+
+##import calendar
+##
+##print(calendar.calendar(2018))
+##print(calendar.month(2023,2))
+###calendar.prcal(2018)
+###calendar.prmonth(2023,2)
+
+
+##import random
+##
+##for i in range(5):
+##    print(random.random())
+
+##
+##import random
+##
+##for i in range(5):
+##    print(random.randint(1,10)) ## 정수 랜덤 생성
+
+
+##import random
+##
+##for i in range(5):
+##    print(random.uniform(1,100)) ## 실수 랜덤 생성
+
+##import random
+##
+##food = ["짜장면","짬뽕","탕수육","군만두"]
+##print(random.choice(food))
+
+
+
+##import random
+##food = ["짜장면","짬뽕","탕수육","군만두"]
+##print(food)
+##random.shuffle(food) ## 리스트 내용을 무작위로 섞어서 나타냄
+##print(food)
+
+
+##import random
+##
+##nums = random.sample(range(1,46),6)
+##nums.sort()
+##print(nums)
+
+
+
+
+
+
+
+
+##def sum(a,b):
+##    return a+b
+##
+##import random
+##
+##a = random.randint(1,10)
+##b = random.randint(1,10)
+##
+##d = sum(a,b)
+##if(d <=9):
+##    print("랜덤함수의 합은 :",d,"\n","10보다 작습니다.참")
+##else:
+##    print("랜덤함수의 합은 :",d,"\n","10보다 큽니다. 거짓.")    
+
+
+##def sum(a,b):
+##    return a+b
+##
+##import random
+##a = random.randint(1,10)
+##b = random.randint(1,10)
+##
+##while sum(a,b) <= 9:
+##   print("랜덤함수의 합은 :",sum(a,b),"10보다 작습니다.참")
+##   break
+##if(sum(a,b) >9):
+##    print("랜덤함수의 합은 :",sum(a,b),"\n","10보다 큽니다. 거짓") 
+
+
+
+
+##import random
+##
+##correct = 0
+##while True:
+##    a = random.randint(1,9)
+##    b = random.randint(1,9)
+##    question = "%d + %d = ? (끝낼 때는 0)" %(a,b)
+##    c = int(input(question))
+##
+##    if c == 0:
+##        break
+##    elif c == a + b:
+##        print("정답입니다.")
+##        correct = correct + 1
+##    else:
+##        print("틀렸습니다.")
+##print("%d 개 맞췄습니다." % correct)        
+
+
+
+##import random
+##import time
+##
+##a = random.randint(1,99)
+##
+##print(a)
+##while True: 
+##    d = int(input("값을 지정하세요 : "))
+##    if d > a:
+##            print(d,":","보다 적은값입니다.")
+##    if d < a:
+##            print(d,":","보다 큰 값입니다.")
+##    if d == a:
+##            print("맞췃습니다")
+##            time.sleep(2)
+##            print("종료합니다.")
+##            break
+
+
+
+
+##import sys
+##
+##print("버전 :",sys.version)
+##print("플랫폼 :",sys.platform)
+##if(sys.platform == "win32"):
+##    print(sys.getwindowsversion())
+##print("바이트 순서 :", sys.byteorder)
+##print("모듈 경로 :", sys.path)
+##sys.exit(0)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
